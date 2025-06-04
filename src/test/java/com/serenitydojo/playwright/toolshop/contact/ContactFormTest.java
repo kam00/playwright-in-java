@@ -10,6 +10,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -21,6 +23,7 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 
 @DisplayName("Contact form")
 @Feature("Contact form")
+@Execution(ExecutionMode.SAME_THREAD)
 public class ContactFormTest extends PlaywrightTestCase {
 
     ContactForm contactForm;
@@ -69,6 +72,9 @@ public class ContactFormTest extends PlaywrightTestCase {
 
         contactForm.submitForm();
 
+        if (!page.getByRole(AriaRole.ALERT).isVisible()) {
+            int i = 0;
+        }
         // Check the error message for that field
         var errorMessage = page.getByRole(AriaRole.ALERT).getByText(fieldName + " is required");
 
