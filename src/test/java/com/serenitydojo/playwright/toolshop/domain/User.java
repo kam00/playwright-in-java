@@ -8,11 +8,7 @@ import java.time.format.DateTimeFormatter;
 public record User(
         String first_name,
         String last_name,
-        String address,
-        String city,
-        String state,
-        String country,
-        String postcode,
+        Address address,
         String phone,
         String dob,
         String password,
@@ -29,11 +25,13 @@ public record User(
         return new User(
                 fake.name().firstName(),
                 fake.name().lastName(),
-                fake.address().streetAddress(),
-                fake.address().city(),
-                fake.address().state(),
-                fake.address().country(),
-                fake.address().postcode(),
+                new Address(
+                        fake.address().streetName(),
+                        fake.address().city(),
+                        fake.address().state(),
+                        fake.address().country(),
+                        fake.address().postcode()
+                ),
                 fake.phoneNumber().phoneNumber(),
                 formattedDate,
                 "Az123!&xyz",
@@ -46,10 +44,6 @@ public record User(
                 first_name,
                 last_name,
                 address,
-                city,
-                state,
-                country,
-                postcode,
                 phone,
                 dob,
                 password,
@@ -57,7 +51,7 @@ public record User(
     }
 
     public User withFirstName(String first_name) {
-        return new User(first_name,last_name,address,city,state,country,postcode,phone,dob,password,email);
+        return new User(first_name,last_name,address,phone,dob,password,email);
     }
 
 }
